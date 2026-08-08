@@ -1,4 +1,4 @@
-# Stage 1 API
+# fastapi-nginx-service
 
 Minimal FastAPI service built for Stage 1 of the DevOps internship track.
 
