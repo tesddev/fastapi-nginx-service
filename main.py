@@ -1,5 +1,6 @@
-from fastapi import FastAPI
 from datetime import datetime, timezone
+
+from fastapi import FastAPI
 
 app = FastAPI()
 
