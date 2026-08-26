@@ -21,5 +21,5 @@ def me():
         "name": "Tesleem",
         "email": "tesleem.amuda@email.com",
         "github": "https://github.com/tesddev",
-        "stage": "Stage 1"
+        "stage": "Stage 2"
     }
