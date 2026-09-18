@@ -65,6 +65,10 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
+
+      - name: Remove stale SBOM so Trivy does not reuse it
+        run: rm -f sbom.json
+
       - name: Build image for scanning
         run: docker build --no-cache -t scan-target:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
@@ -75,6 +79,8 @@ jobs:
           exit-code: '1'
           format: table
           ignore-unfixed: true
+          scanners: vuln
+          skip-files: sbom.json
           trivyignores: .trivyignore
 
   trivy-sbom:

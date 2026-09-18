@@ -19,10 +19,11 @@ LABEL maintainer="Tesleem <you@email.com>" \
       version="1.0" \
       description="FastAPI service - Stage 2 containerized deployment"
 
-# Create a non-root user. Never run app processes as root inside a container —
-# if the app is compromised, root inside the container has more attack surface
-# (e.g. potential container-breakout vectors) than a locked-down user would.
-RUN adduser --disabled-password --gecos '' appuser \
+# Upgrade system packages to fix known HIGH vulnerabilities (e.g. libpcre2-8-0)
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && adduser --disabled-password --gecos '' appuser \
     && pip install --no-cache-dir --upgrade "setuptools>=78.1.1"
 
 WORKDIR /app
