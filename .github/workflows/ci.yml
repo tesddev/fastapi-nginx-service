@@ -73,6 +73,8 @@ jobs:
         run: docker build --no-cache -t scan-target:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
+        env:
+          TRIVY_DISABLED_ANALYZERS: spdx,cyclonedx
         with:
           image-ref: scan-target:${{ github.sha }}
           severity: HIGH,CRITICAL
@@ -80,7 +82,6 @@ jobs:
           format: table
           ignore-unfixed: true
           scanners: vuln
-          skip-files: sbom.json
           trivyignores: .trivyignore
 
   trivy-sbom:

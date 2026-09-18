@@ -1,3 +1,8 @@
 # Bookworm zlib1g does not ship MiniZip. Debian status: ignored / will_not_fix.
 # https://security-tracker.debian.org/tracker/CVE-2023-45853
 CVE-2023-45853
+
+# Stale third-party SBOM inside python:3.12-slim. Not the files on disk.
+# Disk: msgpack 1.2.2 and setuptools 84.0.0 (both 0 vulns in METADATA rows).
+GHSA-6v7p-g79w-8964
+CVE-2025-47273
