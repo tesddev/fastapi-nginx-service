@@ -8,3 +8,4 @@ venv/
 *.md
 deploy.sh
 .DS_Store
+sbom.json

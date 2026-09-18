@@ -59,3 +59,45 @@ jobs:
           context: .
           push: false
           tags: stage2-api:${{ github.sha }}
+
+  trivy-image-scan:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Remove stale SBOM so Trivy does not reuse it
+        run: rm -f sbom.json
+
+      - name: Build image for scanning
+        run: docker build --no-cache -t scan-target:${{ github.sha }} .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        env:
+          TRIVY_DISABLED_ANALYZERS: spdx,cyclonedx
+        with:
+          image-ref: scan-target:${{ github.sha }}
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          format: table
+          ignore-unfixed: true
+          scanners: vuln
+          trivyignores: .trivyignore
+
+  trivy-sbom:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image for SBOM
+        run: docker build -t scan-target:${{ github.sha }} .
+      - name: Generate SBOM
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: scan-target:${{ github.sha }}
+          format: spdx-json
+          output: sbom.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
