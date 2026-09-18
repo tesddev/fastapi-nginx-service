@@ -1,5 +1,5 @@
 # ---------- Stage 1: builder ----------
-FROM python:3.12-slim AS builder
+FROM python:3.12-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN python -m venv /app/.venv && \
     /app/.venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # ---------- Stage 2: runtime ----------
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 LABEL maintainer="Tesleem <you@email.com>" \
       version="1.0" \
@@ -22,7 +22,8 @@ LABEL maintainer="Tesleem <you@email.com>" \
 # Create a non-root user. Never run app processes as root inside a container —
 # if the app is compromised, root inside the container has more attack surface
 # (e.g. potential container-breakout vectors) than a locked-down user would.
-RUN adduser --disabled-password --gecos '' appuser
+RUN adduser --disabled-password --gecos '' appuser \
+    && pip install --no-cache-dir --upgrade "setuptools>=78.1.1"
 
 WORKDIR /app
 
