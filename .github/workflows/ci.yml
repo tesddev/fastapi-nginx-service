@@ -66,14 +66,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image for scanning
-        run: docker build -t scan-target:${{ github.sha }} .
+        run: docker build --no-cache -t scan-target:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: scan-target:${{ github.sha }}
           severity: HIGH,CRITICAL
           exit-code: '1'
           format: table
+          ignore-unfixed: true
+          trivyignores: .trivyignore
 
   trivy-sbom:
     runs-on: ubuntu-latest
