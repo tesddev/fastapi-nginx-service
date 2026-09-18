@@ -68,7 +68,7 @@ jobs:
       - name: Build image for scanning
         run: docker build --no-cache -t scan-target:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: scan-target:${{ github.sha }}
           severity: HIGH,CRITICAL
@@ -85,7 +85,7 @@ jobs:
       - name: Build image for SBOM
         run: docker build -t scan-target:${{ github.sha }} .
       - name: Generate SBOM
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: scan-target:${{ github.sha }}
           format: spdx-json
