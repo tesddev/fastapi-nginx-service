@@ -13,7 +13,7 @@ RUN python -m venv /app/.venv && \
     /app/.venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # ---------- Stage 2: runtime ----------
-FROM python:3.12-slim-bookworm
+FROM python:3.9-slim
 
 LABEL maintainer="Tesleem <you@email.com>" \
       version="1.0" \
