@@ -1,6 +1,6 @@
 # FastAPI Nginx Service
 
-> Minimal FastAPI service built for Stage 1 of the DevOps internship track.
+> Minimal FastAPI service
 
 ## 🚀 Endpoints
 
